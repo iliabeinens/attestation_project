@@ -157,7 +157,7 @@ application. Starting a service with Genode works as follows:
 The class 'Attestation::Root_component' is derived from Genode's 'Root_component'
 class template. This class defines a '_create_session' method, which is called
 each time a client wants to establish a connection to the server. This function
-is responsible for parsing the parameter string the client hands over to the
+is responsible for parsing the parameter char* the client hands over to the
 server and for creating a 'Attestation::Session_component' object from these
 parameters.
 

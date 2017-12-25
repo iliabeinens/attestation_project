@@ -24,7 +24,7 @@ void Component::construct(Genode::Env &env)
 	attestation.say_attestation();
 
 	int const sum = attestation.add(2, 5);
-	attestation.testIlya(2);
+	attestation.app_to_comp(2,2,2);
 	Genode::log("added 2 + 5 = ", sum);
 	Genode::log("attestation test completed");
 }

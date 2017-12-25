@@ -16,6 +16,8 @@
 
 #include <session/session.h>
 #include <base/rpc.h>
+#include <util/string.h>
+typedef Genode::String<256> String;
 
 namespace Attestation { struct Session; }
 
@@ -28,7 +30,7 @@ struct Attestation::Session : Genode::Session
 
 	virtual void say_attestation() = 0;
 	virtual int add(int a, int b) = 0;
-	virtual char* testIlya(int a) = 0;
+	virtual char* app_to_comp(int ID, int TimeStamp, int nonce) = 0;
 
 	/*******************
 	 ** RPC interface **
@@ -36,8 +38,8 @@ struct Attestation::Session : Genode::Session
 
 	GENODE_RPC(Rpc_say_attestation, void, say_attestation);
 	GENODE_RPC(Rpc_add, int, add, int, int);
-	GENODE_RPC(Rpc_testIlya, char* , testIlya, int);
-	GENODE_RPC_INTERFACE(Rpc_say_attestation, Rpc_add,Rpc_testIlya);
+	GENODE_RPC(Rpc_app_to_comp, char* , app_to_comp, int, int,int);
+	GENODE_RPC_INTERFACE(Rpc_say_attestation, Rpc_add,Rpc_app_to_comp);
 };
 
 #endif /* _INCLUDE__HELLO_SESSION__HELLO_SESSION_H_ */

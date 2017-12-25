@@ -17,7 +17,8 @@
 #include <attestation_session/attestation_session.h>
 #include <base/rpc_client.h>
 #include <base/log.h>
-
+#include <util/string.h>
+typedef Genode::String<256> String;
 namespace Attestation { struct Session_client; }
 
 
@@ -37,9 +38,9 @@ struct Attestation::Session_client : Genode::Rpc_client<Session>
 	{
 		return call<Rpc_add>(a, b);
 	}
-	char* testIlya(int a)
+	char* app_to_comp(int ID, int TimeStamp, int nonce)
 	{
-		return call<Rpc_testIlya>(a);
+		return call<Rpc_app_to_comp>(ID,TimeStamp,nonce);
 	}
 };
 

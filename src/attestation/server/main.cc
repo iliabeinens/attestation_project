@@ -18,13 +18,32 @@
 #include <root/component.h>
 #include <attestation_session/attestation_session.h>
 #include <base/rpc_server.h>
-
+#include <util/string.h>
 namespace Attestation {
 	struct Session_component;
 	struct Root_component;
 	struct Main;
 }
+typedef Genode::String<256> String;
+char* myAtoi(int number)
+{
 
+	int copyNumber=number;
+	int numberOfDigis=1;
+	while(number/10 > 0)
+	{
+		numberOfDigis++;
+		number/=10;
+	}	
+	number=copyNumber; //Restoring the value of number
+	char result[numberOfDigis] ;
+	for(int i=0;i<numberOfDigis;i++)
+	{
+		
+		result[numberOfDigis-i-1]=number%10;
+	}
+	return result;
+}
 
 struct Attestation::Session_component : Genode::Rpc_object<Session>
 {
@@ -33,10 +52,16 @@ struct Attestation::Session_component : Genode::Rpc_object<Session>
 
 	int add(int a, int b) {
 		return a + b; }
-	char* testIlya(int a)
-				{
-	     return "I am here";}
+	char* app_to_comp(int ID, int TimeStamp, int nonce)
+	{
+		char* stringID = myAtoi(ID);
+		char* stringTime = myAtoi(TimeStamp);
+		char stringNonce = myAtoi(nonce);
+		return stringID;
+	}
+
 };
+
 
 
 class Attestation::Root_component
@@ -54,12 +79,12 @@ class Attestation::Root_component
 	public:
 
 		Root_component(Genode::Entrypoint &ep,
-		               Genode::Allocator &alloc)
-		:
-			Genode::Root_component<Session_component>(ep, alloc)
-		{
-			Genode::log("creating root component");
-		}
+				Genode::Allocator &alloc)
+			:
+				Genode::Root_component<Session_component>(ep, alloc)
+	{
+		Genode::log("creating root component");
+	}
 };
 
 
